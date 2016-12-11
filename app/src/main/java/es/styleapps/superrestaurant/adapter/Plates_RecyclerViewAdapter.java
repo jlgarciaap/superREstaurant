@@ -23,6 +23,7 @@ public class Plates_RecyclerViewAdapter extends RecyclerView.Adapter<Plates_Recy
     private OnPlateClickListener mOnPlateClickListener;//Para el listener del boton
 
 
+
     public Plates_RecyclerViewAdapter (LinkedList<Plate> plates, OnPlateClickListener onPlateClickListener){
 
         mPlates = plates;

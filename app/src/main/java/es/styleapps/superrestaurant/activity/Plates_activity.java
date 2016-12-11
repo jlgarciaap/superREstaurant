@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ArrayAdapter;
 
@@ -32,6 +33,11 @@ public class Plates_activity extends AppCompatActivity implements Plates_Recycle
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.fragment_plate_list);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("Platos Disponibles");
+        setSupportActionBar(toolbar);
 
         LinkedList<Plate> plates = new LinkedList<>();
 
@@ -41,7 +47,7 @@ public class Plates_activity extends AppCompatActivity implements Plates_Recycle
         plates.add(new Plate("Spaghettis4", "Pos unos huevos con papas","Espero que no", R.drawable.ico_13, 50));
         plates.add(new Plate("Spaghettis5", "Pos unos huevos con papas","Espero que no", R.drawable.ico_13, 60));
 
-        setContentView(R.layout.fragment_plate_list);
+
 
         mAdapter = new Plates_RecyclerViewAdapter(plates,this);
 

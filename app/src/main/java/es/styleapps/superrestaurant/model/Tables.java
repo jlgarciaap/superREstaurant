@@ -4,13 +4,14 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 
 /**
  * Created by jlgarciaap on 10/12/16.
  */
 
-public class Tables {
+public class Tables implements Serializable{
 
     private LinkedList<Table> mTables;
 

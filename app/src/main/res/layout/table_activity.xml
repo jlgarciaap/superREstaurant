@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:tools="http://schemas.android.com/tools"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
@@ -11,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        >
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -21,12 +22,6 @@
 
     </LinearLayout>
 
-    <fragment
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:name="es.styleapps.superrestaurant.fragment.Table_fragment"
-    android:id="@+id/table_fragment"
-    tools:layout="@layout/fragment_table_list"
-    />
+
 
 </LinearLayout>

@@ -6,7 +6,7 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
-    <include layout="@layout/toolbar_main"/>
+
 
 
     <android.support.v7.widget.RecyclerView
@@ -21,4 +21,6 @@
 
     </android.support.v7.widget.RecyclerView>
 
+    <include layout="@layout/toolbar_main"
+    android:id="@+id/toolbar2"/>
 </android.support.design.widget.CoordinatorLayout>
