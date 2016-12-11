@@ -34,13 +34,15 @@ public class Detail_plate_activity extends AppCompatActivity implements Serializ
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.detail_plate_activity);
+        mPlate = (Plate) getIntent().getSerializableExtra("PLATO");
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
+        setTitle(mPlate.getPlateName());
         //Le decimos a nuestra pantalla que esa es nuestra action bar
         setSupportActionBar(toolbar);
 
-        mPlate = (Plate) getIntent().getSerializableExtra("PLATO");
+
 
         mPlateName = (TextView) findViewById(R.id.text_plate_name);
         mPlateDescription = (TextView) findViewById(R.id.textPlateDescription);

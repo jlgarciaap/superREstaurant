@@ -100,11 +100,11 @@ public class Table_activity extends AppCompatActivity implements Plates_Recycler
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Bundle bundle = data.getExtras();
+
         switch (requestCode){
             case 1: {
                 if (resultCode == Activity.RESULT_OK) {
-
+                    Bundle bundle = data.getExtras();
                     Plate plateExample = (Plate) bundle.getSerializable("PRUEBA");
                     mPlates.add(plateExample);
                     mAdapter.notifyItemInserted(mPlates.size());
