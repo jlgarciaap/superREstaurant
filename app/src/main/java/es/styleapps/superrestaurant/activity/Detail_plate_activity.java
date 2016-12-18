@@ -43,6 +43,7 @@ public class Detail_plate_activity extends AppCompatActivity implements Serializ
         setContentView(R.layout.detail_plate_activity);
         mPlate = (Plate) getIntent().getSerializableExtra("PLATO");
 
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         setTitle(mPlate.getPlateName());
@@ -69,12 +70,11 @@ public class Detail_plate_activity extends AppCompatActivity implements Serializ
             public void onClick(View view) {
 
                 mPlate.setPlateExtras(mPlateExtras.getText().toString());
-                Intent intent = new Intent();
+                Intent intent = getIntent();
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("EXTRAS",mPlate);
                 intent.putExtras(bundle);
                 setResult(2,intent);
-
                 finish();
             }
         });

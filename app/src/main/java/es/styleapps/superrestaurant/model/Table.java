@@ -37,8 +37,8 @@ public class Table implements Serializable {
 
         mTableNumber = tableNumber;
 
-        mPlates.add(new Plate("Huevos Fritos", "Pos unos huevos con papas","Espero que no", R.drawable.ico_09, 40));
-        mPlates.add(new Plate("Huevos Fritos2", "Pos unos huevos con papas","Espero que no", R.drawable.ico_09, 20));
+        mPlates.add(new Plate("Huevos Fritos", "Pos unos huevos con papas","Espero que no", R.drawable.huevoschorizo, 40));
+        mPlates.add(new Plate("Huevos Fritos2", "Pos unos huevos con papas","Espero que no", R.drawable.spaghetti, 20));
 
 
 

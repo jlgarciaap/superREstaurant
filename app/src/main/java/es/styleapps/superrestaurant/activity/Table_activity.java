@@ -50,6 +50,7 @@ public class Table_activity extends AppCompatActivity implements Plates_Recycler
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_table_list);
 
+
         mTablePressed = (int) getIntent().getSerializableExtra("TABLEID");
 
         mTables = Tables.getTables();
@@ -60,6 +61,7 @@ public class Table_activity extends AppCompatActivity implements Plates_Recycler
         toolbar.setTitle(mTable.getTableNumber());
         //Le decimos a nuestra pantalla que esa es nuestra action bar
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         if (mTable != null) {
 
@@ -72,11 +74,11 @@ public class Table_activity extends AppCompatActivity implements Plates_Recycler
             }
         } else {
 
-            mPlates.add(new Plate("Huevos FritosNULL", "Pos unos huevos con papas","Espero que no", R.drawable.ico_09, 40));
-            mPlates.add(new Plate("Huevos FritosNULL2", "Pos unos huevos con papas","Espero que no", R.drawable.ico_09, 20));
-            mPlates.add(new Plate("Huevos FritosNULL3", "Pos unos huevos con papas","Espero que no", R.drawable.ico_09, 30));
-            mPlates.add(new Plate("Huevos FritosNULL4", "Pos unos huevos con papas","Espero que no", R.drawable.ico_09, 50));
-            mPlates.add(new Plate("Huevos FritosNULL5", "Pos unos huevos con papas","Espero que no", R.drawable.ico_09, 60));
+            mPlates.add(new Plate("Huevos FritosNULL", "Pos unos huevos con papas","Espero que no", R.drawable.spaghetti, 40));
+            mPlates.add(new Plate("Huevos FritosNULL2", "Pos unos huevos con papas","Espero que no", R.drawable.solternera, 20));
+            mPlates.add(new Plate("Huevos FritosNULL3", "Pos unos huevos con papas","Espero que no", R.drawable.huevoschorizo, 30));
+            mPlates.add(new Plate("Huevos FritosNULL4", "Pos unos huevos con papas","Espero que no", R.drawable.emperador, 50));
+
         }
 
 
@@ -128,13 +130,20 @@ public class Table_activity extends AppCompatActivity implements Plates_Recycler
                     Tables.setTables(mTables);
                     mAdapter.notifyItemInserted(mPlates.size());
                     Tables_list_activity.adapterTable.notifyDataSetChanged();
-                    startActivity(getIntent());
+                    onResume();
                 }
             }
         }
 
     }
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mTables = Tables.getTables();
+
+    }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -145,10 +154,15 @@ public class Table_activity extends AppCompatActivity implements Plates_Recycler
     }
 
 
-    @Override
-    public void onBackPressed() {
-
-    }
+//    @Override
+//    public void onBackPressed() {
+//        super.onBackPressed();
+//        Intent intent = new Intent();
+//        intent.setAction(Intent.ACTION_MAIN);
+//        intent.addCategory(Intent.CATEGORY_LAUNCHER);
+//        startActivity(intent);
+//
+//    }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
@@ -204,14 +218,17 @@ public class Table_activity extends AppCompatActivity implements Plates_Recycler
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        boolean superValue = super.onOptionsItemSelected(item);
         switch (item.getItemId()){
             case R.id.total:
                 AlertDialog total = total();
                 total.show();
                 return true;
-            default:
-                return super.onOptionsItemSelected(item);
+            case android.R.id.home:
+                finish();
+                return true;
         }
+        return superValue;
     }
 
 }
