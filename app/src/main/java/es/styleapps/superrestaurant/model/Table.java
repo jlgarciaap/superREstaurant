@@ -1,5 +1,9 @@
 package es.styleapps.superrestaurant.model;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.Serializable;
 import java.util.LinkedList;
 
@@ -23,7 +27,11 @@ public class Table implements Serializable {
 
     private LinkedList<Plate> mPlates;
 
+
+
     public Table(String tableNumber){
+
+
 
         mPlates = new LinkedList<>();
 
@@ -49,4 +57,7 @@ public class Table implements Serializable {
     public String toString() {
         return getTableNumber();
     }
+
+
+
 }

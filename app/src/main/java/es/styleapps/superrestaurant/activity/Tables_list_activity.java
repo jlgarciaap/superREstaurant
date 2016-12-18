@@ -24,6 +24,9 @@ import es.styleapps.superrestaurant.model.Tables;
 
 public class Tables_list_activity extends AppCompatActivity implements Serializable {
 
+
+    public static ArrayAdapter<Table> adapterTable;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,15 +37,13 @@ public class Tables_list_activity extends AppCompatActivity implements Serializa
         //Le decimos a nuestra pantalla que esa es nuestra action bar
         setSupportActionBar(toolbar);
 
-
-
-
         final Tables tables = new Tables();
 
         ListView tablesList = (ListView) findViewById(R.id.tables_list);
 
-        ArrayAdapter<Table> adapterTable = new ArrayAdapter<Table>(getBaseContext(),
+        adapterTable = new ArrayAdapter<Table>(getBaseContext(),
                 android.R.layout.simple_list_item_1, tables.getTables());
+
 
         tablesList.setAdapter(adapterTable);
 
@@ -50,12 +51,11 @@ public class Tables_list_activity extends AppCompatActivity implements Serializa
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                Table testTable = tables.getTables().get(i);
-                String test = "probando";
 
            Intent intent = new Intent(getBaseContext(),Table_activity.class);
               Bundle bundle = new Bundle();
-            bundle.putSerializable("TABLE",tables.getTables().get(i));
+            bundle.putSerializable("TABLEID",i);
+               // bundle.putSerializable("TABLESGROUP", (Serializable) adapterTable);
                 intent.putExtras(bundle);
                startActivity(intent);
 

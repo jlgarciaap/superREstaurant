@@ -4,12 +4,9 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
-import android.app.FragmentManager;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityOptionsCompat;
@@ -17,21 +14,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
-import android.view.View;
-import android.widget.TextView;
-import android.view.MenuItem;
 import android.view.MenuInflater;
-import java.io.IOException;
+import android.view.MenuItem;
+import android.view.View;
+
 import java.io.Serializable;
 import java.util.LinkedList;
 
 import es.styleapps.superrestaurant.R;
 import es.styleapps.superrestaurant.adapter.Plates_RecyclerViewAdapter;
-import es.styleapps.superrestaurant.fragment.Table_fragment;
 import es.styleapps.superrestaurant.model.Plate;
 import es.styleapps.superrestaurant.model.Table;
+import es.styleapps.superrestaurant.model.Tables;
 
 /**
  * Created by jlgarciaap on 10/12/16.
@@ -44,25 +39,34 @@ public class Table_activity extends AppCompatActivity implements Plates_Recycler
     private RecyclerView.LayoutManager mLayoutManager;
     private LinkedList<Plate> mPlates;
     private Table mTable;
+    private LinkedList<Table> mTables;
+    private int mTablePressed;
+    private int mPositionPressed;
+
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_table_list);
 
-        mTable = (Table) getIntent().getSerializableExtra("TABLE");
+        mTablePressed = (int) getIntent().getSerializableExtra("TABLEID");
+
+        mTables = Tables.getTables();
+
+        mTable = mTables.get(mTablePressed);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(mTable.getTableNumber());
         //Le decimos a nuestra pantalla que esa es nuestra action bar
         setSupportActionBar(toolbar);
 
-
-
-
-
         if (mTable != null) {
 
+
+            if(savedInstanceState != null){
+                mPlates = (LinkedList<Plate>) savedInstanceState.getSerializable(mTable.getTableNumber());
+            }
             if (mPlates == null) {
                 mPlates = mTable.getPlates();
             }
@@ -107,14 +111,50 @@ public class Table_activity extends AppCompatActivity implements Plates_Recycler
                     Bundle bundle = data.getExtras();
                     Plate plateExample = (Plate) bundle.getSerializable("PRUEBA");
                     mPlates.add(plateExample);
+                    //mTable.setPlate(plateExample);
+                    //mTables.add(mTablePressed,mTable);
+                    Tables.setTables(mTables);
                     mAdapter.notifyItemInserted(mPlates.size());
+                    Tables_list_activity.adapterTable.notifyDataSetChanged();
 
+                }
+                if (resultCode == 2) {
+
+                    Bundle bundle = data.getExtras();
+                    Plate plateExample = (Plate) bundle.getSerializable("EXTRAS");
+                    int position = mPlates.indexOf(plateExample);
+                    mPlates.remove(mPositionPressed);
+                    mPlates.add(plateExample);
+                    Tables.setTables(mTables);
+                    mAdapter.notifyItemInserted(mPlates.size());
+                    Tables_list_activity.adapterTable.notifyDataSetChanged();
+                    startActivity(getIntent());
                 }
             }
         }
 
     }
 
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable(mTable.getTableNumber(),mPlates);
+
+
+    }
+
+
+    @Override
+    public void onBackPressed() {
+
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        mPlates = (LinkedList<Plate>) savedInstanceState.getSerializable(mTable.getTableNumber());
+    }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
@@ -125,7 +165,8 @@ public class Table_activity extends AppCompatActivity implements Plates_Recycler
         Bundle bundle = new Bundle();
         bundle.putSerializable("PLATO",plate);
         resultIntent.putExtras(bundle);
-       startActivity(resultIntent, ActivityOptionsCompat.makeSceneTransitionAnimation(this,view,"transition").toBundle());
+        mPositionPressed = position;
+        startActivityForResult(resultIntent,1, ActivityOptionsCompat.makeSceneTransitionAnimation(this,view,"transition").toBundle());
 
 
     }
@@ -171,7 +212,6 @@ public class Table_activity extends AppCompatActivity implements Plates_Recycler
             default:
                 return super.onOptionsItemSelected(item);
         }
-
-
     }
+
 }

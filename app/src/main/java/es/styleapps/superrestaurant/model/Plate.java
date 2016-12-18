@@ -54,6 +54,7 @@ public class Plate implements Serializable{
     private String mPlateAlergens;
     private int mPlateImage;
     private float mPlatePrice;
+    private String mPlateExtras;
 
     public Plate(String plateName, String plateDetails, String plateAlergens, int plateImage, float platePrice){
 
@@ -62,9 +63,17 @@ public class Plate implements Serializable{
         mPlateDetails = plateDetails;
         mPlateImage = plateImage;
         mPlatePrice = platePrice;
+        mPlateExtras = "";
 
     }
 
+    public String getPlateExtras() {
+        return mPlateExtras;
+    }
+
+    public void setPlateExtras(String plateExtras) {
+        mPlateExtras = plateExtras;
+    }
 
     //Para obtener los nombres en condiciones
     @Override

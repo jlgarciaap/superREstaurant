@@ -1,10 +1,14 @@
 package es.styleapps.superrestaurant.activity;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -24,6 +28,9 @@ public class Detail_plate_activity extends AppCompatActivity implements Serializ
     private TextView mPlatePrice;
     private TextView mPlateAlergens;
     private ImageView mPlateImage;
+    private EditText mPlateExtras;
+    private Button mPlateSave;
+    private TextView mPlateChanges;
 
     //Guardamos el plate actual para futuros usos
     private Plate mPlate;
@@ -49,9 +56,30 @@ public class Detail_plate_activity extends AppCompatActivity implements Serializ
         mPlatePrice = (TextView) findViewById(R.id.textPlatePrice);
         mPlateAlergens = (TextView) findViewById(R.id.textPlateAlergens);
         mPlateImage = (ImageView) findViewById(R.id.plateImage);
+        mPlateExtras = (EditText) findViewById(R.id.editText);
+        mPlateSave = (Button) findViewById(R.id.savePlate);
+        mPlateChanges = (TextView) findViewById(R.id.plateChanges);
 
         //Actualizamos la interfaz
         setPlate(mPlate);
+
+
+        mPlateSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                mPlate.setPlateExtras(mPlateExtras.getText().toString());
+                Intent intent = new Intent();
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("EXTRAS",mPlate);
+                intent.putExtras(bundle);
+                setResult(2,intent);
+
+                finish();
+            }
+        });
+
+
 
 
     }
@@ -63,6 +91,7 @@ public class Detail_plate_activity extends AppCompatActivity implements Serializ
         mPlatePrice.setText(String.valueOf(plate.getPlatePrice()));
         mPlateImage.setImageResource(plate.getPlateImage());
         mPlateDescription.setText(plate.getPlateDetails());
+        mPlateChanges.setText(plate.getPlateExtras());
 
 
     }

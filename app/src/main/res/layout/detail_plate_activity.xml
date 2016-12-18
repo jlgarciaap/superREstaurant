@@ -12,56 +12,93 @@
         android:layout_margin="10dp"
         android:transitionName="transition">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-        <TextView
-        android:text="Nombre del Plato:"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-        <TextView
-            android:text="Nombre del Plato:"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/text_plate_name"/>
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:weightSum="1"
+            android:gravity="center_horizontal">
 
-       <ImageView
-           android:src="@drawable/ico_09"
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:id="@+id/plateImage"/>
-        <TextView
-            android:text="Descripcion"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-        <TextView
-            android:text="Descripcion"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/textPlateDescription"/>
-        <TextView
-            android:text="Alergenos"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            <TextView
+                android:text="Nombre del Plato"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/text_plate_name"
+                android:textAppearance="@style/TextAppearance.AppCompat.Headline"/>
 
-        <TextView
-            android:text="Alergenos"
-            android:layout_width="match_parent"
+            <ImageView
+               android:src="@drawable/ico_09"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:id="@+id/plateImage"/>
+
+            <TextView
+                android:text="Descripcion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"/>
+
+            <TextView
+                android:text="Descripcion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textPlateDescription"/>
+
+            <TextView
+                android:text="Alergenos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"/>
+
+            <TextView
+                android:text="Alergenos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textPlateAlergens"/>
+
+            <TextView
+                android:text="Precio: "
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"/>
+
+            <TextView
+                android:text="Precio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textPlatePrice"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textSize="24sp"/>
+
+            <TextView
+            android:text="Detalles del Pedido"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/textPlateAlergens"/>
-        <TextView
-            android:text="Precio: "
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-        <TextView
-            android:text="Precio"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/textPlatePrice"/>
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"/>
+
+            <TextView
+                android:text="Sin cambios"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/plateChanges"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine"
+                android:ems="10"
+                android:id="@+id/editText"
+                android:layout_weight="0.45"/>
+
+            <Button
+                android:text="Guardar"
+                android:layout_width="254dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/savePlate"/>
 
 
-    </LinearLayout>
+        </LinearLayout>
 
 
     </android.support.v7.widget.CardView>

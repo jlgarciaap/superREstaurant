@@ -13,13 +13,14 @@ import java.util.LinkedList;
 
 public class Tables implements Serializable{
 
-    private LinkedList<Table> mTables;
+    private static LinkedList<Table> mTables;
+    //private LinkedList<Table> mTables;
 
-    public LinkedList<Table> getTables() {
+    public static LinkedList<Table> getTables() {
         return mTables;
     }
 
-    public void setTables(LinkedList<Table> tables) {
+    public static void setTables(LinkedList<Table> tables) {
         mTables = tables;
     }
 
