@@ -49,6 +49,7 @@ public class Plates_activity extends AppCompatActivity implements Plates_Recycle
     private RecyclerView.LayoutManager mLayoutManager;
     private LinkedList<Plate> mPlates = new LinkedList<>();
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,18 +58,19 @@ public class Plates_activity extends AppCompatActivity implements Plates_Recycle
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Platos Disponibles");
         setSupportActionBar(toolbar);
-
+        String result = null;
 
         MyAsyncTask async = new MyAsyncTask();
          async.execute();
         try {
-            String result = async.get().toString();
+            result = async.get().toString();
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
 
+        mPlates = parserJSON(result);
 
 //        mPlates.add(new Plate("Spaghettis", "Pos unos huevos con papas","Espero que no", R.drawable.emperador, 40));
 //        mPlates.add(new Plate("Spaghettis2", "Pos unos huevos con papas","Espero que no", R.drawable.solternera, 20));
@@ -87,6 +89,45 @@ public class Plates_activity extends AppCompatActivity implements Plates_Recycle
 
 
     }
+
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    private LinkedList<Plate> parserJSON (String s){
+        //Analizamos losdatos para convertirlos de JSON a algo manejable
+        JSONObject jsonRoot = null;
+        JSONArray plates = null;
+        LinkedList<Plate> platesList = new LinkedList<>();
+        try {
+           jsonRoot = new JSONObject(s);
+           plates = new JSONArray(jsonRoot);
+
+        //Añadimos una lista para ir almacenando los forecast
+
+
+        for (int i = 0; i < plates.length(); i++) { //Añadido para recorrer todos los dias
+            JSONObject plate = null;
+
+            plate = plates.getJSONObject(i);
+
+            String name = plate.getString("name");
+            String description = plate.getString("description");
+            String alergy = plate.getString("alergens");
+            int image = plate.getInt("image");
+            float price = plate.getInt("price");
+
+            platesList.add(new Plate(name, description, alergy, image, price));
+        }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
+            //Creamos el objeto forecast
+            //return new Forecast(max, min, humidity, description, iconResource);
+
+        return platesList;
+        }
+
 
 
 
