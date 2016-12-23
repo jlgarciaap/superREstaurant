@@ -113,8 +113,6 @@ public class Table_activity extends AppCompatActivity implements Plates_Recycler
                     Bundle bundle = data.getExtras();
                     Plate plateExample = (Plate) bundle.getSerializable("PRUEBA");
                     mPlates.add(plateExample);
-                    //mTable.setPlate(plateExample);
-                    //mTables.add(mTablePressed,mTable);
                     Tables.setTables(mTables);
                     mAdapter.notifyItemInserted(mPlates.size());
                     Tables_list_activity.adapterTable.notifyDataSetChanged();
@@ -124,11 +122,8 @@ public class Table_activity extends AppCompatActivity implements Plates_Recycler
 
                     Bundle bundle = data.getExtras();
                     Plate plateExample = (Plate) bundle.getSerializable("EXTRAS");
-                    int position = mPlates.indexOf(plateExample);
-                    mPlates.remove(mPositionPressed);
-                    mPlates.add(plateExample);
-                    Tables.setTables(mTables);
-                    mAdapter.notifyItemInserted(mPlates.size());
+                    mPlates.set(mPositionPressed, plateExample);
+                    mAdapter.notifyItemChanged(mPositionPressed);
                     Tables_list_activity.adapterTable.notifyDataSetChanged();
                     onResume();
                 }
@@ -140,8 +135,8 @@ public class Table_activity extends AppCompatActivity implements Plates_Recycler
 
     @Override
     protected void onResume() {
-        super.onResume();
         mTables = Tables.getTables();
+        super.onResume();
 
     }
 
@@ -154,15 +149,6 @@ public class Table_activity extends AppCompatActivity implements Plates_Recycler
     }
 
 
-//    @Override
-//    public void onBackPressed() {
-//        super.onBackPressed();
-//        Intent intent = new Intent();
-//        intent.setAction(Intent.ACTION_MAIN);
-//        intent.addCategory(Intent.CATEGORY_LAUNCHER);
-//        startActivity(intent);
-//
-//    }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {

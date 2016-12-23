@@ -29,7 +29,7 @@
             <ImageView
                android:src="@drawable/solternera"
                android:layout_width="match_parent"
-               android:layout_height="218dp"
+               android:layout_height="154dp"
                android:id="@+id/plateImage"/>
 
             <TextView

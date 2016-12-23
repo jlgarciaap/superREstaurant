@@ -99,7 +99,8 @@ public class Plates_activity extends AppCompatActivity implements Plates_Recycle
         LinkedList<Plate> platesList = new LinkedList<>();
         try {
            jsonRoot = new JSONObject(s);
-           plates = new JSONArray(jsonRoot);
+            plates = jsonRoot.getJSONArray("plates");
+
 
         //Añadimos una lista para ir almacenando los forecast
 
@@ -111,15 +112,19 @@ public class Plates_activity extends AppCompatActivity implements Plates_Recycle
 
             String name = plate.getString("name");
             String description = plate.getString("description");
-            String alergy = plate.getString("alergens");
+            String alergy = plate.getString("alergy");
             int image = plate.getInt("image");
             float price = plate.getInt("price");
 
             platesList.add(new Plate(name, description, alergy, image, price));
+
         }
             } catch (JSONException e) {
                 e.printStackTrace();
-            }
+            } catch (Exception ex){
+
+             ex.printStackTrace();
+        }
 
 
             //Creamos el objeto forecast
@@ -324,7 +329,7 @@ class MyAsyncTask extends AsyncTask<String,Integer, String> {
 
         try {
             //Nos bajamos los datos
-            url = new URL("http://www.mocky.io/v2/5856f0b61300008317fddccb");//Solo queremos el primero
+            url = new URL("http://www.mocky.io/v2/585c35e01200001f185642a6");//Solo queremos el primero
 
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.connect();
@@ -362,36 +367,36 @@ class MyAsyncTask extends AsyncTask<String,Integer, String> {
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
 
-        //Analizamos losdatos para convertirlos de JSON a algo manejable
-        JSONObject jsonRoot = null;
-        JSONArray plates = null;
-        try {
-            jsonRoot = new JSONObject(s);
-            plates = new JSONArray(jsonRoot);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-
-        //Añadimos una lista para ir almacenando los forecast
-        LinkedList<Plate> platesList = new LinkedList<>();
-
-        for (int i = 0; i < plates.length(); i++) { //Añadido para recorrer todos los dias
-            JSONObject plate = null;
-            try {
-                plate = plates.getJSONObject(i);
-
-                String name = plate.getString("name");
-                String description = plate.getString("description");
-                String alergy = plate.getString("alergens");
-                int image = plate.getInt("image");
-                float price = plate.getInt("price");
-
-                platesList.add(new Plate(name, description, alergy, image, price));
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+//        //Analizamos losdatos para convertirlos de JSON a algo manejable
+//        JSONObject jsonRoot = null;
+//        JSONArray plates = null;
+//        try {
+//            jsonRoot = new JSONObject(s);
+//            plates = new JSONArray(jsonRoot);
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//
+//
+//        //Añadimos una lista para ir almacenando los forecast
+//        LinkedList<Plate> platesList = new LinkedList<>();
+//
+//        for (int i = 0; i < plates.length(); i++) { //Añadido para recorrer todos los dias
+//            JSONObject plate = null;
+//            try {
+//                plate = plates.getJSONObject(i);
+//
+//                String name = plate.getString("name");
+//                String description = plate.getString("description");
+//                String alergy = plate.getString("alergens");
+//                int image = plate.getInt("image");
+//                float price = plate.getInt("price");
+//
+//                platesList.add(new Plate(name, description, alergy, image, price));
+//
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
 
 
             //Creamos el objeto forecast
@@ -401,4 +406,3 @@ class MyAsyncTask extends AsyncTask<String,Integer, String> {
         }
     }
 
-}
