@@ -80,7 +80,7 @@ public class Plates_activity extends AppCompatActivity implements Plates_Recycle
 
 
 
-        mAdapter = new Plates_RecyclerViewAdapter(mPlates,this);
+        mAdapter = new Plates_RecyclerViewAdapter(mPlates,getBaseContext(),this);
 
         mRecyclerView = (RecyclerView) findViewById(R.id.reciclador);
         mLayoutManager = new LinearLayoutManager(this);

@@ -38,4 +38,9 @@ public class Tables implements Serializable{
         mTables.add(new Table("Mesa 8"));
 
     }
+
+    public Table getTable(int position){
+        return mTables.get(position);
+
+    }
 }

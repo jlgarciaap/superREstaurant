@@ -1,5 +1,6 @@
 package es.styleapps.superrestaurant.adapter;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,13 +21,16 @@ public class Plates_RecyclerViewAdapter extends RecyclerView.Adapter<Plates_Recy
 
    private LinkedList<Plate> mPlates;
 
+    private Context mContext;
+
     private OnPlateClickListener mOnPlateClickListener;//Para el listener del boton
 
 
 
-    public Plates_RecyclerViewAdapter (LinkedList<Plate> plates, OnPlateClickListener onPlateClickListener){
-
+    public Plates_RecyclerViewAdapter (LinkedList<Plate> plates, Context context, OnPlateClickListener onPlateClickListener){
+        super();
         mPlates = plates;
+        mContext = context;
         mOnPlateClickListener = onPlateClickListener; //Para que t odo sea boton
     }
 

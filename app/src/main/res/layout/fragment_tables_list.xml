@@ -3,10 +3,8 @@
               xmlns:app="http://schemas.android.com/apk/res-auto"
               android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:id="@+id/fragment_tables_list">
+              android:layout_height="match_parent">
 
-    <include layout="@layout/toolbar_main"/>
     <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
