@@ -72,12 +72,6 @@ public class Plates_activity extends AppCompatActivity implements Plates_Recycle
 
         mPlates = parserJSON(result);
 
-//        mPlates.add(new Plate("Spaghettis", "Pos unos huevos con papas","Espero que no", R.drawable.emperador, 40));
-//        mPlates.add(new Plate("Spaghettis2", "Pos unos huevos con papas","Espero que no", R.drawable.solternera, 20));
-//        mPlates.add(new Plate("Spaghettis2", "Pos unos huevos con papas","Espero que no", R.drawable.solternera, 20));
-
-
-
 
 
         mAdapter = new Plates_RecyclerViewAdapter(mPlates,getBaseContext(),this);

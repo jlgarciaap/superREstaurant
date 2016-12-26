@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+
+        <include layout="@layout/toolbar_main"/>
+
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/appbar"
+            android:id="@+id/fragment_tables_list"/>
+
+
+        <!--android:id="@+id/add_button"-->
+        <!--<android.support.design.widget.FloatingActionButton-->
+
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:src="@drawable/ic_plus"-->
+        <!--android:layout_gravity="bottom|right"-->
+        <!--android:layout_margin="14dp"/>-->
+
+
+
+
+
+
+
+</LinearLayout>

@@ -33,11 +33,8 @@ public class fragment_tables_list extends Fragment {
     public static ArrayAdapter<Table> adapterTable;
 
     public static fragment_tables_list newInstance(){
-//        Bundle arguments = new Bundle();
-//        arguments.putInt(ARG_CITY_INDEX, cityIndex);
 
         fragment_tables_list tables_list_fragment = new fragment_tables_list();
-//        cityPagerFragment.setArguments(arguments);
 
         return tables_list_fragment;
 
@@ -76,12 +73,6 @@ public class fragment_tables_list extends Fragment {
 
                 }
 
-//                Intent intent = new Intent(getActivity().getBaseContext(), fragment_table.class);
-//                Bundle bundle = new Bundle();
-//                bundle.putSerializable("TABLEID", i);
-//                // bundle.putSerializable("TABLESGROUP", (Serializable) adapterTable);
-//                intent.putExtras(bundle);
-//                startActivity(intent);
 
             }
         });

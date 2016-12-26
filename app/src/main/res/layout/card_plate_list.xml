@@ -8,7 +8,6 @@
                                     card_view:cardUseCompatPadding="true">
 
 
-
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -33,14 +32,24 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
             android:text="Small Text"
             android:id="@+id/plate_recycler_price"
-            android:layout_below="@+id/plate_recycler_name"
-            android:layout_alignLeft="@+id/plate_recycler_name" />
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginBottom="12dp"/>
 
-
+        <ImageView
+            android:id="@+id/plate_alergens"
+            android:scaleType="center"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_alignTop="@+id/plate_recycler_price"
+            android:layout_alignLeft="@+id/plate_recycler_name"
+            android:layout_alignStart="@+id/plate_recycler_name"/>
 
 
     </RelativeLayout>
+
 </android.support.v7.widget.CardView>

@@ -41,7 +41,7 @@ public class Plates_RecyclerViewAdapter extends RecyclerView.Adapter<Plates_Recy
         private TextView mPlateName;
         private TextView mPlatePrice;
         private View mView; //para pasar la vista por el listener
-
+        private ImageView mAlergenImage;
 
         public PlatesViewHolder (View view){
 
@@ -49,6 +49,7 @@ public class Plates_RecyclerViewAdapter extends RecyclerView.Adapter<Plates_Recy
             mPlateImage = (ImageView) view.findViewById(R.id.plate_recycler_image);
             mPlateName = (TextView) view.findViewById(R.id.plate_recycler_name);
             mPlatePrice = (TextView) view.findViewById(R.id.plate_recycler_price);
+            mAlergenImage = (ImageView) view.findViewById(R.id.plate_alergens);
             mView = view;
 
         }
@@ -74,10 +75,32 @@ public class Plates_RecyclerViewAdapter extends RecyclerView.Adapter<Plates_Recy
     public void onBindViewHolder(PlatesViewHolder holder, final int position) {
 
          int precio = (int) mPlates.get(position).getPlatePrice();
-
-        holder.mPlatePrice.setText(String.valueOf(precio));
+         String alergens =  mPlates.get(position).getPlateAlergens();
+        holder.mPlatePrice.setText(String.valueOf(precio + "€" ));
         holder.mPlateName.setText(mPlates.get(position).getPlateName());
         holder.mPlateImage.setImageResource(mPlates.get(position).getPlateImage());
+
+        if (alergens.equals("fish")){
+
+
+            holder.mAlergenImage.setImageResource(R.drawable.fish_icon2);
+
+        } else
+        if (alergens.equals("gluten")){
+
+            holder.mAlergenImage.setImageResource(R.drawable.gluten_icon2);
+
+        }else
+        if (alergens.equals("egg")){
+
+            holder.mAlergenImage.setImageResource(R.drawable.egg_icon);
+
+        }else {
+
+            holder.mAlergenImage.setImageResource(R.drawable.allgood_icon);
+
+        }
+
 
         holder.getView().setOnClickListener(new View.OnClickListener(){
             @Override

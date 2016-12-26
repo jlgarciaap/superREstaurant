@@ -12,9 +12,9 @@ import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -26,12 +26,13 @@ import java.util.LinkedList;
 
 import es.styleapps.superrestaurant.R;
 import es.styleapps.superrestaurant.activity.Detail_plate_activity;
-//import es.styleapps.superrestaurant.activity.Table_activity;
 import es.styleapps.superrestaurant.activity.Plates_activity;
 import es.styleapps.superrestaurant.adapter.Plates_RecyclerViewAdapter;
 import es.styleapps.superrestaurant.model.Plate;
 import es.styleapps.superrestaurant.model.Table;
 import es.styleapps.superrestaurant.model.Tables;
+
+//import es.styleapps.superrestaurant.activity.Table_activity;
 
 /**
  * Created by jlgarciaap on 23/12/16.
@@ -47,16 +48,23 @@ public class fragment_table extends Fragment implements Plates_RecyclerViewAdapt
     private LinkedList<Table> mTables;
     private int mTablePressed;
     private int mPositionPressed;
-
+    private static fragment_table mTableFragment;
 
     public static fragment_table newInstance(){
-//        Bundle arguments = new Bundle();
-//        arguments.putInt(ARG_CITY_INDEX, cityIndex);
 
-        fragment_table table = new fragment_table();
-//        cityPagerFragment.setArguments(arguments);
+        mTableFragment = new fragment_table();
+        return mTableFragment;
 
-        return table;
+    }
+
+    public static fragment_table getInstance(){
+
+        if (mTableFragment != null){
+            return mTableFragment;
+        }else{
+
+            return newInstance();
+        }
 
     }
 
@@ -65,8 +73,20 @@ public class fragment_table extends Fragment implements Plates_RecyclerViewAdapt
         super.onCreate(savedInstanceState);
 
         setHasOptionsMenu(true);
+
+
     }
 
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if (savedInstanceState != null){
+            mPlates = (LinkedList<Plate>) savedInstanceState.getSerializable(mTable.getTableNumber());
+
+        }
+
+    }
 
     @Nullable
     @Override
@@ -77,29 +97,56 @@ public class fragment_table extends Fragment implements Plates_RecyclerViewAdapt
 
         View root = inflater.inflate(R.layout.fragment_table_list, container, false);
 
+        int position = getActivity().getIntent().getIntExtra("TABLESELECT",-1);
 
         mTables = Tables.getTables();
 
+        if (position != -1) {
 
-        if (getActivity().getIntent().getSerializableExtra("TABLEID") != null){
+            mTablePressed = position;
 
-            mTablePressed = (int) getActivity().getIntent().getSerializableExtra("TABLEID");
             mTable = mTables.get(mTablePressed);
-        } else {
 
-            mTable = mTables.get(0);
+        } else if (getArguments() != null) {
 
-        }
+                if (getArguments().getSerializable("TABLESELECTED") != null) {
 
-        //Le decimos a nuestra pantalla que esa es nuestra action bar
+                    mTablePressed = getArguments().getInt("POSITIONTABLECHANGE");
+
+                } else {
+
+                    mTablePressed = getArguments().getInt("POSITION", 0);
+
+                }
+                mTable = mTables.get(mTablePressed);
+
+            } else {
+
+
+                mTable = mTables.get(0);
+
+            }
+
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
+        activity.setTitle(mTable.getTableNumber());
+
 
         if (mTable != null) {
 
+            if (getArguments() != null) {
+                if (getArguments().getSerializable(mTable.getTableNumber()) != null) {
+                    mPlates = (LinkedList<Plate>) getArguments().getSerializable(mTable.getTableNumber());
+                }
+            }
+
             if(savedInstanceState != null){
                 mPlates = (LinkedList<Plate>) savedInstanceState.getSerializable(mTable.getTableNumber());
+                mTable.setPlates(mPlates);
+                fragment_tables_list.adapterTable.notifyDataSetChanged();
             }
             if (mPlates == null) {
                 mPlates = mTable.getPlates();
+
             }
         } else {
 
@@ -129,7 +176,6 @@ public class fragment_table extends Fragment implements Plates_RecyclerViewAdapt
             }
         });
 
-
         return root;
 
     }
@@ -148,7 +194,6 @@ public class fragment_table extends Fragment implements Plates_RecyclerViewAdapt
                     mPlates.add(plateExample);
                     Tables.setTables(mTables);
                     mAdapter.notifyItemInserted(mPlates.size());
-                    // Tables_list_activity.adapterTable.notifyDataSetChanged();
                     fragment_tables_list.adapterTable.notifyDataSetChanged();
 
 
@@ -159,7 +204,6 @@ public class fragment_table extends Fragment implements Plates_RecyclerViewAdapt
                     Plate plateExample = (Plate) bundle.getSerializable("EXTRAS");
                     mPlates.set(mPositionPressed, plateExample);
                     mAdapter.notifyItemChanged(mPositionPressed);
-                    //Tables_list_activity.adapterTable.notifyDataSetChanged();
                     fragment_tables_list.adapterTable.notifyDataSetChanged();
                     onResume();
                 }
@@ -188,22 +232,18 @@ public class fragment_table extends Fragment implements Plates_RecyclerViewAdapt
 
 
 
-
-
-
-
-
-
-
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     public void onPlateClick(int position, Plate plate, View view) {
 
         //Pasamos al detail_plate_activity
         Intent resultIntent = new Intent(getActivity(),Detail_plate_activity.class);
         Bundle bundle = new Bundle();
+        bundle.putSerializable("ACTUALTABLE", mTable);
         bundle.putSerializable("PLATO",plate);
-        resultIntent.putExtras(bundle);
+        bundle.putInt("POSITIONTABLE",mTablePressed);
         mPositionPressed = position;
+        bundle.putInt("POSITIONPLATE",mPositionPressed);
+        resultIntent.putExtras(bundle);
         getActivity().startActivityForResult(resultIntent,1, ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(),view,"transition").toBundle());
 
 
@@ -240,6 +280,30 @@ public class fragment_table extends Fragment implements Plates_RecyclerViewAdapt
 
     }
 
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        Bundle bundle = new Bundle();
+
+            if (mTable != null) {
+                bundle.putSerializable(mTable.getTableNumber(), mPlates);
+            }
+        mTable.setPlates(mPlates);
+        Tables.setTables(mTables);
+        fragment_tables_list.adapterTable.notifyDataSetChanged();
+
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            if (mTable != null) {
+               mPlates = (LinkedList<Plate>) bundle.getSerializable(mTable.getTableNumber());
+            }
+        }
+    }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -258,9 +322,6 @@ public class fragment_table extends Fragment implements Plates_RecyclerViewAdapt
                 AlertDialog total = total();
                 total.show();
                 return true;
-//            case android.R.id.home:
-//                getActivity().finish();
-//                return true;
         }
         return superValue;
     }

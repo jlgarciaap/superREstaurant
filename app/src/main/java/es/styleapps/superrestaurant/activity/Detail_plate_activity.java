@@ -16,6 +16,7 @@ import java.io.Serializable;
 
 import es.styleapps.superrestaurant.R;
 import es.styleapps.superrestaurant.model.Plate;
+import es.styleapps.superrestaurant.model.Table;
 
 /**
  * Created by jlgarciaap on 10/12/16.
@@ -71,9 +72,17 @@ public class Detail_plate_activity extends AppCompatActivity implements Serializ
 
                 mPlate.setPlateExtras(mPlateExtras.getText().toString());
                 Intent intent = getIntent();
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("EXTRAS",mPlate);
-                intent.putExtras(bundle);
+
+                Bundle bundle2 = new Bundle();
+                Table selectedTable = (Table) intent.getSerializableExtra("ACTUALTABLE");
+                int positionTable = intent.getIntExtra("POSITIONTABLE",0);
+                int positionPlate = intent.getIntExtra("POSITIONPLATE",0);
+                //selectedTable.setPlate(mPlate);
+                bundle2.putSerializable("TABLESELECTED",selectedTable);
+                bundle2.putSerializable("EXTRAS",mPlate);
+                bundle2.putInt("POSITIONTABLECHANGE",positionTable);
+                bundle2.putInt("POSITIONPLATESELECTED",positionPlate);
+                intent.putExtras(bundle2);
                 setResult(2,intent);
                 finish();
             }

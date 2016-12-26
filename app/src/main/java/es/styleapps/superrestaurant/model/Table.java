@@ -49,6 +49,10 @@ public class Table implements Serializable {
         mPlates.add(plate);
     }
 
+    public void setPlates(LinkedList<Plate> plates) {
+        mPlates = plates;
+    }
+
     public LinkedList<Plate> getPlates() {
         return mPlates;
     }
