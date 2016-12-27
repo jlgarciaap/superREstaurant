@@ -32,24 +32,17 @@ public class Table_activity extends AppCompatActivity {
         setContentView(R.layout.fragment_table_list);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-
-        //Le decimos a nuestra pantalla que esa es nuestra action bar
         setSupportActionBar(toolbar);
-
-
 
         FragmentManager fm = getFragmentManager();
 
-
+        //Controlamos si existe el fragment
         if(findViewById(R.id.fragment_table)!= null) {
 
             if (fm.findFragmentById(R.id.fragment_table) == null) {
 
                 mTable = fragment_table.getInstance();
-
                 fm.beginTransaction().add(R.id.fragment_table, mTable).commit();
-
-
             }
         }
 
@@ -62,16 +55,19 @@ public class Table_activity extends AppCompatActivity {
         switch (requestCode) {
             case 1: {
                 if (resultCode == 2) {
-
+                    //A la vuelta de la actividad obtenemos datos y guardamos los que necesitamos
+                    //Para evitar la persistencia. Esto esta repetido, se podria intentar sacar a una
+                    //clase pero para facilitar la visualizacion en cada clase he preferido dejarlo
                     Bundle bundle = data.getExtras();
-                    Plate plateExample = (Plate) bundle.getSerializable("EXTRAS");
-                    Table tableSelected = (Table) bundle.getSerializable("TABLESELECTED");
+                    Plate plateExample = (Plate) bundle.getSerializable(getString(R.string.EXTRA_EXTRAS));
+                    Table tableSelected = (Table) bundle.getSerializable(getString(R.string.EXTRA_TABLESELECTED));
                     LinkedList<Plate> platesTable = tableSelected.getPlates();
-                    int position = bundle.getInt("POSITIONPLATESELECTED");
-                    int positionTable = bundle.getInt("POSITIONTABLECHANGE");
+                    int position = bundle.getInt(getString(R.string.EXTRA_POSITONPLATESELECTED));
+                    int positionTable = bundle.getInt(getString(R.string.EXTRA_POSITIONTABLECHANGE));
                     platesTable.set(position, plateExample);
                     LinkedList<Table> tables = Tables.getTables();
                     tables.set(positionTable, tableSelected);
+                    Tables.setTables(tables);
                     fragment_tables_list.adapterTable.notifyDataSetChanged();
                     FragmentManager fm = getFragmentManager();
                     FragmentTransaction fragmentTransaction = fm.beginTransaction();
@@ -83,210 +79,4 @@ public class Table_activity extends AppCompatActivity {
         }
     }
 
-    @Override
-   protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-//        if(getFragmentManager().findFragmentById(R.id.fragment_table)!= null) {
-//            getFragmentManager().putFragment(outState, "FRAGMENT", mTable);
-//        }
-
-    }
-
-
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        //mTable = (fragment_table) getFragmentManager().getFragment(savedInstanceState,"FRAGMENT");
-    }
 }
-
-//public class Table_activity extends AppCompatActivity implements Plates_RecyclerViewAdapter.OnPlateClickListener, Serializable{
-//
-//    private RecyclerView mRecyclerView;
-//    private RecyclerView.Adapter mAdapter;
-//    private RecyclerView.LayoutManager mLayoutManager;
-//    private LinkedList<Plate> mPlates;
-//    private Table mTable;
-//    private LinkedList<Table> mTables;
-//    private int mTablePressed;
-//    private int mPositionPressed;
-//
-//
-//
-//    @Override
-//    protected void onCreate(@Nullable Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.fragment_table_list);
-//
-//
-//        mTablePressed = (int) getIntent().getSerializableExtra("TABLEID");
-//
-//        mTables = Tables.getTables();
-//
-//        mTable = mTables.get(mTablePressed);
-//
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        toolbar.setTitle(mTable.getTableNumber());
-//        //Le decimos a nuestra pantalla que esa es nuestra action bar
-//        setSupportActionBar(toolbar);
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//
-//        if (mTable != null) {
-//
-//
-//            if(savedInstanceState != null){
-//                mPlates = (LinkedList<Plate>) savedInstanceState.getSerializable(mTable.getTableNumber());
-//            }
-//            if (mPlates == null) {
-//                mPlates = mTable.getPlates();
-//            }
-//        } else {
-//
-//            mPlates.add(new Plate("Huevos FritosNULL", "Pos unos huevos con papas","Espero que no", R.drawable.spaghetti, 40));
-//            mPlates.add(new Plate("Huevos FritosNULL2", "Pos unos huevos con papas","Espero que no", R.drawable.solternera, 20));
-//            mPlates.add(new Plate("Huevos FritosNULL3", "Pos unos huevos con papas","Espero que no", R.drawable.huevoschorizo, 30));
-//            mPlates.add(new Plate("Huevos FritosNULL4", "Pos unos huevos con papas","Espero que no", R.drawable.emperador, 50));
-//
-//        }
-//
-//
-//        mAdapter = new Plates_RecyclerViewAdapter(mPlates,this);
-//
-//        mRecyclerView = (RecyclerView) findViewById(R.id.reciclador);
-//        mLayoutManager = new LinearLayoutManager(this);
-//        mRecyclerView.setLayoutManager(mLayoutManager);
-//        mRecyclerView.setAdapter(mAdapter);
-//
-////        FloatingActionButton addButton = (FloatingActionButton) findViewById(R.id.add_button);
-////        addButton.setOnClickListener(new View.OnClickListener(){
-////
-////            @Override
-////            public void onClick(View view) {
-////                Intent intent = new Intent(Table_activity.this, Plates_activity.class);
-////                startActivityForResult(intent, 1);
-////            }
-////        });
-//
-//
-//
-//    }
-//
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//
-//        switch (requestCode){
-//            case 1: {
-//                if (resultCode == Activity.RESULT_OK) {
-//                    Bundle bundle = data.getExtras();
-//                    Plate plateExample = (Plate) bundle.getSerializable("PRUEBA");
-//                    mPlates.add(plateExample);
-//                    Tables.setTables(mTables);
-//                    mAdapter.notifyItemInserted(mPlates.size());
-//                   // Tables_list_activity.adapterTable.notifyDataSetChanged();
-//                    fragment_tables_list.adapterTable.notifyDataSetChanged();
-//
-//                }
-//                if (resultCode == 2) {
-//
-//                    Bundle bundle = data.getExtras();
-//                    Plate plateExample = (Plate) bundle.getSerializable("EXTRAS");
-//                    mPlates.set(mPositionPressed, plateExample);
-//                    mAdapter.notifyItemChanged(mPositionPressed);
-//                    //Tables_list_activity.adapterTable.notifyDataSetChanged();
-//                    fragment_tables_list.adapterTable.notifyDataSetChanged();
-//                    onResume();
-//                }
-//            }
-//        }
-//
-//    }
-//
-//
-//    @Override
-//    protected void onResume() {
-//        mTables = Tables.getTables();
-//        super.onResume();
-//
-//    }
-//
-//    @Override
-//    protected void onSaveInstanceState(Bundle outState) {
-//        super.onSaveInstanceState(outState);
-//        outState.putSerializable(mTable.getTableNumber(),mPlates);
-//
-//
-//    }
-//
-//
-//
-//    @Override
-//    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-//        super.onRestoreInstanceState(savedInstanceState);
-//        mPlates = (LinkedList<Plate>) savedInstanceState.getSerializable(mTable.getTableNumber());
-//    }
-//
-//    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
-//    @Override
-//    public void onPlateClick(int position, Plate plate, View view) {
-//
-//        //Pasamos al detail_plate_activity
-//        Intent resultIntent = new Intent(this,Detail_plate_activity.class);
-//        Bundle bundle = new Bundle();
-//        bundle.putSerializable("PLATO",plate);
-//        resultIntent.putExtras(bundle);
-//        mPositionPressed = position;
-//        startActivityForResult(resultIntent,1, ActivityOptionsCompat.makeSceneTransitionAnimation(this,view,"transition").toBundle());
-//
-//
-//    }
-//
-//    public AlertDialog total(){
-//        int totalCuenta = 0;
-//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//
-//        for(int i=0;i<mPlates.size();i++){
-//
-//            totalCuenta += (int) mPlates.get(i).getPlatePrice();
-//
-//        }
-//
-//        builder.setTitle("TOTAL CUENTA").setMessage(String.valueOf(totalCuenta) + " €")
-//                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialogInterface, int i) {
-//
-//                    }
-//                });
-//
-//        return builder.create();
-//
-//    }
-//
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//
-//        MenuInflater inflater = getMenuInflater();
-//        inflater.inflate(R.menu.menu_buttons,menu);
-//
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        boolean superValue = super.onOptionsItemSelected(item);
-//        switch (item.getItemId()){
-//            case R.id.total:
-//                AlertDialog total = total();
-//                total.show();
-//                return true;
-//            case android.R.id.home:
-//                finish();
-//                return true;
-//        }
-//        return superValue;
-//    }
-//
-//}

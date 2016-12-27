@@ -80,25 +80,20 @@ public class Plates_RecyclerViewAdapter extends RecyclerView.Adapter<Plates_Recy
         holder.mPlateName.setText(mPlates.get(position).getPlateName());
         holder.mPlateImage.setImageResource(mPlates.get(position).getPlateImage());
 
-        if (alergens.equals("fish")){
-
-
-            holder.mAlergenImage.setImageResource(R.drawable.fish_icon2);
-
-        } else
-        if (alergens.equals("gluten")){
-
-            holder.mAlergenImage.setImageResource(R.drawable.gluten_icon2);
-
-        }else
-        if (alergens.equals("egg")){
-
-            holder.mAlergenImage.setImageResource(R.drawable.egg_icon);
-
-        }else {
-
-            holder.mAlergenImage.setImageResource(R.drawable.allgood_icon);
-
+        //Para el icono de alergenos
+        switch (alergens) {
+            case "fish":
+                holder.mAlergenImage.setImageResource(R.drawable.fish_icon2);
+                break;
+            case "gluten":
+                holder.mAlergenImage.setImageResource(R.drawable.gluten_icon2);
+                break;
+            case "egg":
+                holder.mAlergenImage.setImageResource(R.drawable.egg_icon);
+                break;
+            default:
+                holder.mAlergenImage.setImageResource(R.drawable.allgood_icon);
+                break;
         }
 
 

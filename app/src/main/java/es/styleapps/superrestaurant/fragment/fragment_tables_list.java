@@ -6,8 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.Toolbar;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,9 +14,10 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import es.styleapps.superrestaurant.R;
-//mport es.styleapps.superrestaurant.activity.Table_activity;
 import es.styleapps.superrestaurant.model.Table;
 import es.styleapps.superrestaurant.model.Tables;
+
+
 
 /**
  * Created by jlgarciaap on 23/12/16.
@@ -37,10 +36,13 @@ public class fragment_tables_list extends Fragment {
         fragment_tables_list tables_list_fragment = new fragment_tables_list();
 
         return tables_list_fragment;
-
     }
 
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -55,6 +57,7 @@ public class fragment_tables_list extends Fragment {
         View root = inflater.inflate(R.layout.fragment_tables_list, container, false);
 
         final Tables tables = new Tables();
+
 
         tablesList = (ListView) root.findViewById(R.id.tables_list);
 

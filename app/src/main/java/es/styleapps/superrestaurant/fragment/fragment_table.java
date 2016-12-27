@@ -32,7 +32,7 @@ import es.styleapps.superrestaurant.model.Plate;
 import es.styleapps.superrestaurant.model.Table;
 import es.styleapps.superrestaurant.model.Tables;
 
-//import es.styleapps.superrestaurant.activity.Table_activity;
+
 
 /**
  * Created by jlgarciaap on 23/12/16.
@@ -57,6 +57,7 @@ public class fragment_table extends Fragment implements Plates_RecyclerViewAdapt
 
     }
 
+    //En el caso de que este instanciado ya
     public static fragment_table getInstance(){
 
         if (mTableFragment != null){
@@ -71,16 +72,14 @@ public class fragment_table extends Fragment implements Plates_RecyclerViewAdapt
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setHasOptionsMenu(true);
-
-
     }
 
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        //Por si acaso en algun momento es necesario
         if (savedInstanceState != null){
             mPlates = (LinkedList<Plate>) savedInstanceState.getSerializable(mTable.getTableNumber());
 
@@ -93,11 +92,9 @@ public class fragment_table extends Fragment implements Plates_RecyclerViewAdapt
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
        super.onCreateView(inflater, container, savedInstanceState);
 
-
-
         View root = inflater.inflate(R.layout.fragment_table_list, container, false);
 
-        int position = getActivity().getIntent().getIntExtra("TABLESELECT",-1);
+        int position = getActivity().getIntent().getIntExtra(getString(R.string.EXTRA_TABLESELECT),-1);
 
         mTables = Tables.getTables();
 
@@ -109,15 +106,14 @@ public class fragment_table extends Fragment implements Plates_RecyclerViewAdapt
 
         } else if (getArguments() != null) {
 
-                if (getArguments().getSerializable("TABLESELECTED") != null) {
+                if (getArguments().getSerializable(getString(R.string.EXTRA_TABLESELECTED)) != null) {
 
-                    mTablePressed = getArguments().getInt("POSITIONTABLECHANGE");
+                    mTablePressed = getArguments().getInt(getString(R.string.EXTRA_POSITIONTABLECHANGE));
 
                 } else {
-
-                    mTablePressed = getArguments().getInt("POSITION", 0);
-
+                    mTablePressed = getArguments().getInt(getString(R.string.EXTRA_POSITION), 0);
                 }
+
                 mTable = mTables.get(mTablePressed);
 
             } else {
@@ -133,6 +129,8 @@ public class fragment_table extends Fragment implements Plates_RecyclerViewAdapt
 
         if (mTable != null) {
 
+            mPlates = mTable.getPlates();
+
             if (getArguments() != null) {
                 if (getArguments().getSerializable(mTable.getTableNumber()) != null) {
                     mPlates = (LinkedList<Plate>) getArguments().getSerializable(mTable.getTableNumber());
@@ -141,15 +139,15 @@ public class fragment_table extends Fragment implements Plates_RecyclerViewAdapt
 
             if(savedInstanceState != null){
                 mPlates = (LinkedList<Plate>) savedInstanceState.getSerializable(mTable.getTableNumber());
-                mTable.setPlates(mPlates);
-                fragment_tables_list.adapterTable.notifyDataSetChanged();
-            }
-            if (mPlates == null) {
-                mPlates = mTable.getPlates();
 
             }
+
+
+
+
         } else {
 
+            //DATOS TONTOS POR SI NO HAY NADA
             mPlates.add(new Plate("Huevos FritosNULL", "Pos unos huevos con papas","Espero que no", R.drawable.spaghetti, 40));
             mPlates.add(new Plate("Huevos FritosNULL2", "Pos unos huevos con papas","Espero que no", R.drawable.solternera, 20));
             mPlates.add(new Plate("Huevos FritosNULL3", "Pos unos huevos con papas","Espero que no", R.drawable.huevoschorizo, 30));
@@ -190,7 +188,7 @@ public class fragment_table extends Fragment implements Plates_RecyclerViewAdapt
             case 1: {
                 if (resultCode == Activity.RESULT_OK) {
                     Bundle bundle = data.getExtras();
-                    Plate plateExample = (Plate) bundle.getSerializable("PRUEBA");
+                    Plate plateExample = (Plate) bundle.getSerializable(getString(R.string.EXTRA_PLATE));
                     mPlates.add(plateExample);
                     Tables.setTables(mTables);
                     mAdapter.notifyItemInserted(mPlates.size());
@@ -201,9 +199,10 @@ public class fragment_table extends Fragment implements Plates_RecyclerViewAdapt
                 if (resultCode == 2) {
 
                     Bundle bundle = data.getExtras();
-                    Plate plateExample = (Plate) bundle.getSerializable("EXTRAS");
+                    Plate plateExample = (Plate) bundle.getSerializable(getString(R.string.EXTRA_EXTRAS));
                     mPlates.set(mPositionPressed, plateExample);
                     mAdapter.notifyItemChanged(mPositionPressed);
+                    Tables.setTables(mTables);
                     fragment_tables_list.adapterTable.notifyDataSetChanged();
                     onResume();
                 }
@@ -225,7 +224,7 @@ public class fragment_table extends Fragment implements Plates_RecyclerViewAdapt
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putSerializable(mTable.getTableNumber(),mPlates);
+       outState.putSerializable(mTable.getTableNumber(),mPlates);
 
 
     }
@@ -238,11 +237,11 @@ public class fragment_table extends Fragment implements Plates_RecyclerViewAdapt
         //Pasamos al detail_plate_activity
         Intent resultIntent = new Intent(getActivity(),Detail_plate_activity.class);
         Bundle bundle = new Bundle();
-        bundle.putSerializable("ACTUALTABLE", mTable);
-        bundle.putSerializable("PLATO",plate);
-        bundle.putInt("POSITIONTABLE",mTablePressed);
+        bundle.putSerializable(getString(R.string.EXTRA_ACTUALTABLE), mTable);
+        bundle.putSerializable(getString(R.string.EXTRA_PLATO),plate);
+        bundle.putInt(getString(R.string.EXTRA_POSITIONTABLE),mTablePressed);
         mPositionPressed = position;
-        bundle.putInt("POSITIONPLATE",mPositionPressed);
+        bundle.putInt(getString(R.string.EXTRA_POSITIONPLATE),mPositionPressed);
         resultIntent.putExtras(bundle);
         getActivity().startActivityForResult(resultIntent,1, ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(),view,"transition").toBundle());
 
@@ -269,14 +268,6 @@ public class fragment_table extends Fragment implements Plates_RecyclerViewAdapt
                 });
 
         return builder.create();
-
-    }
-
-    public void showTable(int position){
-
-        mTable = mTables.get(position);
-        mAdapter.notifyDataSetChanged();
-
 
     }
 

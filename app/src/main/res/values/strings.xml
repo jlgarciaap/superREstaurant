@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">superRestaurant</string>
+    <string name="EXTRA_PLATO">PLATO</string>
+    <string name="EXTRA_ACTUALTABLE">ACTUALTABLE</string>
+    <string name="EXTRA_POSITIONTABLE">POSITIONTABLE</string>
+    <string name="EXTRA_POSITIONPLATE">POSITIONPLATE</string>
+    <string name="EXTRA_TABLESELECTED">TABLESELECTED</string>
+    <string name="EXTRA_EXTRAS">EXTRAS</string>
+    <string name="EXTRA_POSITIONTABLECHANGE">POSITIONTABLECHANGE</string>
+    <string name="EXTRA_POSITONPLATESELECTED">POSITIONPLATESELECTED</string>
+    <string name="EXTRA_PLATE">PRUEBA</string>
+    <string name="EXTRA_POSITION">POSITION</string>
+    <string name="EXTRA_TABLESELECT">TABLESELECT</string>
 </resources>

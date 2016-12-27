@@ -1,20 +1,13 @@
 package es.styleapps.superrestaurant.activity;
 
-import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
-
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 
 import java.io.Serializable;
 import java.util.LinkedList;
@@ -42,16 +35,12 @@ public class Tables_list_activity extends AppCompatActivity implements Serializa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tables_list_activity);
 
-
-
-
         FragmentManager fn = getFragmentManager();
 
         if(findViewById(R.id.fragment_tables_list) != null) {
             if (fn.findFragmentById(R.id.fragment_tables_list) == null) {
 
                 fragment_tables_list tables_list_fragment = fragment_tables_list.newInstance();
-
                 fn.beginTransaction().add(R.id.fragment_tables_list, tables_list_fragment).commit();
 
 
@@ -61,16 +50,11 @@ public class Tables_list_activity extends AppCompatActivity implements Serializa
         if(findViewById(R.id.fragment_table) != null) {
 
             Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-
-            //Le decimos a nuestra pantalla que esa es nuestra action bar
             setSupportActionBar(toolbar);
 
             if (fn.findFragmentById(R.id.fragment_table) == null) {
 
-
-
                 fragment_table table = fragment_table.getInstance();
-
                 fn.beginTransaction().add(R.id.fragment_table, table).commit();
 
 
@@ -90,16 +74,19 @@ public class Tables_list_activity extends AppCompatActivity implements Serializa
             case 1: {
 
                 if (resultCode == 2) {
-
+                    //A la vuelta de la actividad obtenemos datos y guardamos los que necesitamos
+                    //Para evitar la persistencia. Esto esta repetido, se podria intentar sacar a una
+                    //clase pero para facilitar la visualizacion en cada clase he preferido dejarlo
                     Bundle bundle = data.getExtras();
-                    Plate plateExample = (Plate) bundle.getSerializable("EXTRAS");
-                    Table tableSelected = (Table) bundle.getSerializable("TABLESELECTED");
+                    Plate plateExample = (Plate) bundle.getSerializable(getString(R.string.EXTRA_EXTRAS));
+                    Table tableSelected = (Table) bundle.getSerializable(getString(R.string.EXTRA_TABLESELECTED));
                     LinkedList<Plate> platesTable = tableSelected.getPlates();
-                    int position = bundle.getInt("POSITIONPLATESELECTED");
-                    int positionTable = bundle.getInt("POSITIONTABLECHANGE");
+                    int position = bundle.getInt(getString(R.string.EXTRA_POSITONPLATESELECTED));
+                    int positionTable = bundle.getInt(getString(R.string.EXTRA_POSITIONTABLECHANGE));
                     platesTable.set(position, plateExample);
                     LinkedList<Table> tables = Tables.getTables();
                     tables.set(positionTable,tableSelected);
+                    Tables.setTables(tables);
                     fragment_tables_list.adapterTable.notifyDataSetChanged();
                     FragmentManager fm = getFragmentManager();
                     FragmentTransaction fragmentTransaction = fm.beginTransaction();
@@ -122,7 +109,7 @@ public class Tables_list_activity extends AppCompatActivity implements Serializa
         if (findViewById(R.id.fragment_table) != null){
 
             Bundle bundle = new Bundle();
-            bundle.putInt("POSITION", position);
+            bundle.putInt(getString(R.string.EXTRA_POSITION), position);
             fragment_table fragmentTableNew = new fragment_table();
             fragmentTableNew.setArguments(bundle);
             FragmentTransaction fragmentTransaction = fm.beginTransaction();
@@ -132,10 +119,9 @@ public class Tables_list_activity extends AppCompatActivity implements Serializa
 
         } else {
 
+            //Si la vista no tiene fragment_table significa que tenemos que llamar a la actividad
             Intent intent = new Intent(this, Table_activity.class);
-
-            intent.putExtra("TABLESELECT", position);
-
+            intent.putExtra(getString(R.string.EXTRA_TABLESELECT), position);
             startActivity(intent);
 
         }

@@ -42,13 +42,12 @@ public class Detail_plate_activity extends AppCompatActivity implements Serializ
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.detail_plate_activity);
-        mPlate = (Plate) getIntent().getSerializableExtra("PLATO");
+        //Obtenemos el plato que nos pasan
+        mPlate = (Plate) getIntent().getSerializableExtra(getString(R.string.EXTRA_PLATO));
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-
         setTitle(mPlate.getPlateName());
-        //Le decimos a nuestra pantalla que esa es nuestra action bar
         setSupportActionBar(toolbar);
 
 
@@ -70,18 +69,17 @@ public class Detail_plate_activity extends AppCompatActivity implements Serializ
             @Override
             public void onClick(View view) {
 
+                //Guardamos todos los datos que podemos necesitar
                 mPlate.setPlateExtras(mPlateExtras.getText().toString());
                 Intent intent = getIntent();
-
                 Bundle bundle2 = new Bundle();
-                Table selectedTable = (Table) intent.getSerializableExtra("ACTUALTABLE");
-                int positionTable = intent.getIntExtra("POSITIONTABLE",0);
-                int positionPlate = intent.getIntExtra("POSITIONPLATE",0);
-                //selectedTable.setPlate(mPlate);
-                bundle2.putSerializable("TABLESELECTED",selectedTable);
-                bundle2.putSerializable("EXTRAS",mPlate);
-                bundle2.putInt("POSITIONTABLECHANGE",positionTable);
-                bundle2.putInt("POSITIONPLATESELECTED",positionPlate);
+                Table selectedTable = (Table) intent.getSerializableExtra(getString(R.string.EXTRA_ACTUALTABLE));
+                int positionTable = intent.getIntExtra(getString(R.string.EXTRA_POSITIONTABLE),0);
+                int positionPlate = intent.getIntExtra(getString(R.string.EXTRA_POSITIONPLATE),0);
+                bundle2.putSerializable(getString(R.string.EXTRA_TABLESELECTED),selectedTable);
+                bundle2.putSerializable(getString(R.string.EXTRA_EXTRAS),mPlate);
+                bundle2.putInt(getString(R.string.EXTRA_POSITIONTABLECHANGE),positionTable);
+                bundle2.putInt(getString(R.string.EXTRA_POSITONPLATESELECTED),positionPlate);
                 intent.putExtras(bundle2);
                 setResult(2,intent);
                 finish();
