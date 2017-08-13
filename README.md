@@ -7,5 +7,7 @@ De momento la aplicación no persiste nada, se descarga siempre la información 
 
 A la hora de añadir platos, primero se entra en la mesa correspondiente, se le da para añadir plato, se añade y a continuacion se pulsa sobre el plato en cuestion para modificarlo si es necesario. Y la modificacion de los pedidos muy simple un textEdit que se puede rellenar al gusto.
 
+Tambien indica si tiene algún alérgeno el plato con pequeños iconos debajo de cada plato.
+
 Visualmente no se ha realizado ninguna mejora, solo vemos diseño por defecto.
 
